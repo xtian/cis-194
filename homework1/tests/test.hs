@@ -22,4 +22,10 @@ unitTests = testGroup "Unit tests"
 
   , testCase "toDigitsRev" $
       (toDigitsRev 1234) @?= [4, 3, 2, 1]
+
+  , testCase "doubleEveryOther (n=4)" $
+      (doubleEveryOther [8, 7, 6, 5]) @?= [16, 7, 12, 5]
+
+  , testCase "doubleEveryOther (n=3)" $
+      (doubleEveryOther [1, 2, 3]) @?= [1, 4, 3]
   ]

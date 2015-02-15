@@ -3,12 +3,21 @@ module Homework1 where
 import Data.Char (digitToInt)
 
 toDigits :: Integer -> [Integer]
-toDigits i
-  | i <= 0    = []
-  | otherwise = map digitToInteger $ show i
+toDigits x
+  | x <= 0    = []
+  | otherwise = map digitToInteger $ show x
 
 toDigitsRev :: Integer -> [Integer]
-toDigitsRev i = reverse $ toDigits i
+toDigitsRev x = reverse $ toDigits x
 
 digitToInteger :: Char -> Integer
-digitToInteger i = toInteger $ digitToInt i
+digitToInteger x = toInteger $ digitToInt x
+
+doubleEveryOther :: [Integer] -> [Integer]
+doubleEveryOther xs = reverse $ map fn indexes
+  where
+    indexes = [0..(length xs - 1)]
+    xs' = reverse xs
+    fn i
+      | i `mod` 2 > 0 = (xs' !! i) * 2
+      | otherwise     = (xs' !! i)
