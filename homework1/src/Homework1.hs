@@ -24,3 +24,8 @@ doubleEveryOther xs = reverse $ map fn indexes
 
 sumDigits :: [Integer] -> Integer
 sumDigits xs = foldl (+) 0 $ concat $ map toDigits xs
+
+validate :: Integer -> Bool
+validate cardNumber =
+  let cardSum = sumDigits $ doubleEveryOther $ toDigits cardNumber
+  in  cardSum `mod` 10 == 0

@@ -31,4 +31,10 @@ unitTests = testGroup "Unit tests"
 
   , testCase "sumDigits" $
       (sumDigits [16, 7, 12, 5]) @?= 22
+
+  , testCase "validate (valid)" $
+      (validate 4012888888881881) @?= True
+
+  , testCase "validate (invalid)" $
+      (validate 4012888888881882) @?= False
   ]
