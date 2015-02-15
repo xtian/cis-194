@@ -29,3 +29,11 @@ validate :: Integer -> Bool
 validate cardNumber =
   let cardSum = sumDigits $ doubleEveryOther $ toDigits cardNumber
   in  cardSum `mod` 10 == 0
+
+type Peg = String
+type Move = (Peg, Peg)
+
+hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
+hanoi 0 _ _ _ = []
+hanoi n src dest store =
+  (hanoi (n-1) src store dest) ++ [(src, dest)] ++ (hanoi (n-1) store dest src)

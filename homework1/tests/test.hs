@@ -37,4 +37,7 @@ unitTests = testGroup "Unit tests"
 
   , testCase "validate (invalid)" $
       (validate 4012888888881882) @?= False
+
+  , testCase "hanoi" $
+      (hanoi 2 "a" "b" "c") @?= [("a", "c"), ("a", "b"), ("c", "b")]
   ]
