@@ -21,3 +21,6 @@ doubleEveryOther xs = reverse $ map fn indexes
     fn i
       | i `mod` 2 > 0 = (xs' !! i) * 2
       | otherwise     = (xs' !! i)
+
+sumDigits :: [Integer] -> Integer
+sumDigits xs = foldl (+) 0 $ concat $ map toDigits xs

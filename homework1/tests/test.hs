@@ -28,4 +28,7 @@ unitTests = testGroup "Unit tests"
 
   , testCase "doubleEveryOther (n=3)" $
       (doubleEveryOther [1, 2, 3]) @?= [1, 4, 3]
+
+  , testCase "sumDigits" $
+      (sumDigits [16, 7, 12, 5]) @?= 22
   ]
