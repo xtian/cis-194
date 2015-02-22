@@ -16,6 +16,9 @@ sampleLog = unlines
   , "E 70 3 Way too many pickles"
   ]
 
+buildMessage :: Int -> LogMessage
+buildMessage t = LogMessage Info t (show t)
+
 unitTests :: TestTree
 unitTests = testGroup "Unit tests"
   [ testCase "parseMessage (error)" $
@@ -35,4 +38,15 @@ unitTests = testGroup "Unit tests"
         [ LogMessage Info 6 "Completed armadillo processing"
         , LogMessage (Error 70) 3 "Way too many pickles"
         ]
+
+  , testCase "insert (unknown)" $
+    (insert (Unknown "foo") Leaf) @?= Leaf
+
+  , testCase "insert (lt)" $
+    (insert (buildMessage 1) (Node Leaf (buildMessage 2) Leaf)) @?=
+    Node (Node Leaf (buildMessage 1) Leaf) (buildMessage 2) Leaf
+
+  , testCase "insert (gt)" $
+    (insert (buildMessage 2) (Node Leaf (buildMessage 1) Leaf)) @?=
+    Node Leaf (buildMessage 1) (Node Leaf (buildMessage 2) Leaf)
   ]
