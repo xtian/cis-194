@@ -14,10 +14,11 @@ sampleLog :: String
 sampleLog = unlines
   [ "I 6 Completed armadillo processing"
   , "E 70 3 Way too many pickles"
+  , "I 4 Everything normal"
   ]
 
-buildMessage :: Int -> LogMessage
-buildMessage t = LogMessage Info t (show t)
+messageAt :: Int -> LogMessage
+messageAt t = LogMessage Info t (show t)
 
 unitTests :: TestTree
 unitTests = testGroup "Unit tests"
@@ -37,16 +38,37 @@ unitTests = testGroup "Unit tests"
       (parse sampleLog) @?=
         [ LogMessage Info 6 "Completed armadillo processing"
         , LogMessage (Error 70) 3 "Way too many pickles"
+        , LogMessage Info 4 "Everything normal"
         ]
 
   , testCase "insert (unknown)" $
-    (insert (Unknown "foo") Leaf) @?= Leaf
+      (insert (Unknown "foo") Leaf) @?= Leaf
 
   , testCase "insert (lt)" $
-    (insert (buildMessage 1) (Node Leaf (buildMessage 2) Leaf)) @?=
-    Node (Node Leaf (buildMessage 1) Leaf) (buildMessage 2) Leaf
+      (insert (messageAt 1) (Node Leaf (messageAt 2) Leaf)) @?=
+        Node
+          (Node Leaf (messageAt 1) Leaf)
+          (messageAt 2)
+          Leaf
 
   , testCase "insert (gt)" $
-    (insert (buildMessage 2) (Node Leaf (buildMessage 1) Leaf)) @?=
-    Node Leaf (buildMessage 1) (Node Leaf (buildMessage 2) Leaf)
+      (insert (messageAt 2) (Node Leaf (messageAt 1) Leaf)) @?=
+        Node
+          Leaf
+          (messageAt 1)
+          (Node Leaf (messageAt 2) Leaf)
+
+  , testCase "build" $
+      (build $ parse sampleLog) @?=
+        Node
+          (Node
+            Leaf
+              (LogMessage (Error 70) 3 "Way too many pickles")
+            (Node
+              Leaf
+                (LogMessage Info 4 "Everything normal")
+              Leaf)
+            )
+            (LogMessage Info 6 "Completed armadillo processing")
+          Leaf
   ]
