@@ -8,8 +8,8 @@ parseMessage line =
   case line of
     ('I':s) -> buildMessage Info s
     ('W':s) -> buildMessage Warning s
-    ('E':s) -> buildMessage (Error $ read $ head parts) (unwords $ tail parts)
-                 where parts = words s
+    ('E':s) -> buildMessage (Error $ read severity) (unwords message)
+                 where (severity:message) = words s
     _       -> Unknown line
   where
     buildMessage messageType s =
