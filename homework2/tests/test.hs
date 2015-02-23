@@ -71,9 +71,9 @@ unitTests = testGroup "Unit tests"
         ]
 
   , testCase "whatWentWrong" $
-    (whatWentWrong $ parse F.sampleLog2) @?=
-      [ "Way too many pickles"
-      , "Bad pickle-flange interaction detected"
-      , "Flange failed!"
-      ]
+      (whatWentWrong $ parse F.sampleLog2) @?=
+        [ "Way too many pickles"
+        , "Bad pickle-flange interaction detected"
+        , "Flange failed!"
+        ]
   ]
