@@ -42,3 +42,14 @@ build messages = foldl fn Leaf messages
 inOrder :: MessageTree -> [LogMessage]
 inOrder Leaf = []
 inOrder (Node left msg right) = (inOrder left) ++ [msg] ++ (inOrder right)
+
+
+whatWentWrong :: [LogMessage] -> [String]
+whatWentWrong messages = foldl fn [] $ inOrder $ build messages
+  where
+    fn acc (LogMessage (Error i) _ message) =
+      if i > 50 then acc ++ [message]
+      else acc
+
+    fn acc (LogMessage _ _ _) = acc
+    fn acc (Unknown _) = acc

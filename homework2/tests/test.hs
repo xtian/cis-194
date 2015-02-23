@@ -17,6 +17,21 @@ sampleLog = unlines
   , "I 4 Everything normal"
   ]
 
+sampleLog2 :: String
+sampleLog2 = unlines
+  [ "I 6 Completed armadillo processing"
+  , "I 1 Nothing to report"
+  , "E 99 10 Flange failed!"
+  , "I 4 Everything normal"
+  , "I 11 Initiating self-destruct sequence"
+  , "E 70 3 Way too many pickles"
+  , "E 65 8 Bad pickle-flange interaction detected"
+  , "W 5 Flange is due for a check-up"
+  , "I 7 Out for lunch, back in two time steps"
+  , "E 20 2 Too many pickles"
+  , "I 9 Back from lunch"
+  ]
+
 messageAt :: Int -> LogMessage
 messageAt t = LogMessage Info t (show t)
 
@@ -78,4 +93,11 @@ unitTests = testGroup "Unit tests"
         , LogMessage Info 4 "Everything normal"
         , LogMessage Info 6 "Completed armadillo processing"
         ]
+
+  , testCase "whatWentWrong" $
+    (whatWentWrong $ parse sampleLog2) @?=
+      [ "Way too many pickles"
+      , "Bad pickle-flange interaction detected"
+      , "Flange failed!"
+      ]
   ]
