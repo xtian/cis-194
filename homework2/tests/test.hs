@@ -71,4 +71,11 @@ unitTests = testGroup "Unit tests"
             )
             (LogMessage Info 6 "Completed armadillo processing")
           Leaf
+
+  , testCase "inOrder" $
+      (inOrder $ build $ parse sampleLog) @?=
+        [ LogMessage (Error 70) 3 "Way too many pickles"
+        , LogMessage Info 4 "Everything normal"
+        , LogMessage Info 6 "Completed armadillo processing"
+        ]
   ]

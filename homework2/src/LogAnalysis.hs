@@ -37,3 +37,8 @@ insert msg@(LogMessage _ t1 _) (Node left nMsg@(LogMessage _ t2 _) right) =
 build :: [LogMessage] -> MessageTree
 build messages = foldl fn Leaf messages
   where fn tree message = insert message tree
+
+
+inOrder :: MessageTree -> [LogMessage]
+inOrder Leaf = []
+inOrder (Node left msg right) = (inOrder left) ++ [msg] ++ (inOrder right)
