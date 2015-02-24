@@ -15,3 +15,9 @@ skips xs = take l $ map f $ tails xs
 
     d _ [] = []
     d n (y:ys) = y : (d n $ drop n ys)
+
+-- Creates a list out of the middle element of each successively smaller tail of
+-- the input list where the middle element is greater than the preceding and
+-- succeding integers.
+localMaxima :: [Integer] -> [Integer]
+localMaxima xs = [y | (x:y:z:_) <- tails xs, y > x, y > z]
