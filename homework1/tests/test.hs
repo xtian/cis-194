@@ -4,10 +4,7 @@ import Test.Tasty.HUnit
 import Homework1
 
 main :: IO ()
-main = defaultMain tests
-
-tests :: TestTree
-tests = testGroup "Tests" [unitTests]
+main = defaultMain unitTests
 
 unitTests :: TestTree
 unitTests = testGroup "Unit tests"
