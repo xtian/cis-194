@@ -6,6 +6,25 @@ import Golf
 main :: IO ()
 main = defaultMain unitTests
 
+histogram1 :: String
+histogram1 = unlines
+  [ " *        "
+  , " *        "
+  , " *   *    "
+  , "=========="
+  , "0123456789"
+  ]
+
+histogram2 :: String
+histogram2 = unlines
+  [ "    *     "
+  , "    *     "
+  , "    * *   "
+  , " ******  *"
+  , "=========="
+  , "0123456789"
+  ]
+
 unitTests :: TestTree
 unitTests = testGroup "Unit tests"
   [ testCase "skips (n=4)" $
@@ -31,4 +50,10 @@ unitTests = testGroup "Unit tests"
 
   , testCase "localMaxima (n'=0)" $
       null (localMaxima [1, 2, 3, 4, 5]) @?= True
+
+  , testCase "histogram (n=4)" $
+      (histogram [1, 1, 1, 5]) @?= histogram1
+
+  , testCase "histogram (n=11)" $
+      (histogram [1, 4, 5, 4, 6, 6, 3, 4, 2, 4, 9]) @?= histogram2
   ]

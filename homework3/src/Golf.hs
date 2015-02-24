@@ -1,6 +1,12 @@
 module Golf where
 
-import Data.List (tails)
+import Data.List
+  ( elemIndices
+  , group
+  , sort
+  , tails
+  , transpose
+  )
 
 -- Maps over each successively smaller tail of the input list and drops every
 -- n elements from each tail, where n is the difference in length between the
@@ -21,3 +27,17 @@ skips xs = take l $ map f $ tails xs
 -- succeding integers.
 localMaxima :: [Integer] -> [Integer]
 localMaxima xs = [y | (x:y:z:_) <- tails xs, y > x, y > z]
+
+-- Maps over each number from 0 to 9 and returns a string of stars equal to the
+-- number of times that integer appears in the input array. Each string of stars
+-- is padded with spaces in order to make them equal in length. The maximum
+-- length of each string is found by grouping like numbers of the input array
+-- and finding the length of the longest resulting group. The `transpose`
+-- function then collates the strings by index to convert them into rows
+-- and columns.
+histogram :: [Integer] -> String
+histogram xs = unlines $ transpose $ map f [0..9]
+  where
+    f n = reverse $ show n ++ "=" ++ take m (s n ++ repeat ' ')
+    s n = take (length $ elemIndices n xs) $ repeat '*'
+    m = maximum $ map length $ group $ sort xs
