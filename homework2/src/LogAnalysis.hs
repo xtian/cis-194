@@ -44,11 +44,9 @@ inOrder (Node left msg right) = (inOrder left) ++ [msg] ++ (inOrder right)
 
 
 whatWentWrong :: [LogMessage] -> [String]
-whatWentWrong messages = foldl fn [] $ inOrder $ build messages
+whatWentWrong messages = map toStr $ filter important $ inOrder $ build messages
   where
-    fn acc (LogMessage (Error i) _ message) =
-      if i > 50 then acc ++ [message]
-      else acc
-
-    fn acc (LogMessage _ _ _) = acc
-    fn acc (Unknown _) = acc
+    important (LogMessage (Error i) _ _) = i > 50
+    important _ = False
+    toStr (LogMessage _ _ message) = message
+    toStr _ = error "Unknown messages not allowed."
