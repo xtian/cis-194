@@ -23,7 +23,7 @@ doubleEveryOther xs = reverse $ map fn indexes
       | otherwise = (xs' !! i)
 
 sumDigits :: [Integer] -> Integer
-sumDigits xs = foldl (+) 0 $ concat $ map toDigits xs
+sumDigits xs = sum $ concat $ map toDigits xs
 
 validate :: Integer -> Bool
 validate cardNumber =
