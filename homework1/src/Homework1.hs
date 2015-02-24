@@ -19,8 +19,8 @@ doubleEveryOther xs = reverse $ map fn indexes
     indexes = [0..(length xs - 1)]
     xs' = reverse xs
     fn i
-      | i `mod` 2 > 0 = (xs' !! i) * 2
-      | otherwise     = (xs' !! i)
+      | odd i     = (xs' !! i) * 2
+      | otherwise = (xs' !! i)
 
 sumDigits :: [Integer] -> Integer
 sumDigits xs = foldl (+) 0 $ concat $ map toDigits xs
