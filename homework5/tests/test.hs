@@ -20,4 +20,8 @@ unitTests = testGroup "Unit tests"
 
   , testCase "evalStr (invalid)" $
       (evalStr "2+3*") @?= Nothing
+
+  , testCase "Expr typeclass" $
+      (mul (add (lit 2) (lit 3)) (lit 4) :: ExprT) @?=
+        Mul (Add (Lit 2) (Lit 3)) (Lit 4)
   ]

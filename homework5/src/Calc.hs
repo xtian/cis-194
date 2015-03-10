@@ -13,3 +13,12 @@ evalStr = maybeEval . parseExp Lit Add Mul
   where
     maybeEval (Just x) = Just $ eval x
     maybeEval _ = Nothing
+
+class Expr a where
+  lit :: Integer -> a
+  add, mul :: a -> a -> a
+
+instance Expr ExprT where
+  lit = Lit
+  add = Add
+  mul = Mul
