@@ -1,6 +1,7 @@
 module Calc where
 
 import ExprT
+import Parser
 
 eval :: ExprT -> Integer
 eval (Lit x) = x
