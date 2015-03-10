@@ -46,4 +46,7 @@ unitTests = testGroup "Unit tests"
 
   , testCase "xor n=5" $
       (xor [False, True, False, False, True]) @?= False
+
+  , testCase "map'" $
+      (map' not [True, False, True]) @?= [False, True, False]
   ]
