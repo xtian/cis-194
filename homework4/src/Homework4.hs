@@ -27,3 +27,13 @@ foldTree = foldr insert Leaf
         else
           let r' = insert x r
           in  Node (height r') l y r'
+
+xor :: [Bool] -> Bool
+xor = foldl fn False
+  where
+    fn acc x = if x == True
+      then not acc
+      else acc
+
+xor' :: [Bool] -> Bool
+xor' = odd . length . filter (== True)

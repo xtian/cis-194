@@ -40,4 +40,10 @@ unitTests = testGroup "Unit tests"
             'H'
             (Node 1 (Node 0 Leaf 'D' Leaf) 'E' Leaf)
           )
+
+  , testCase "xor n=3" $
+      (xor [False, True, False]) @?= True
+
+  , testCase "xor n=5" $
+      (xor [False, True, False, False, True]) @?= False
   ]
