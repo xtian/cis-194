@@ -25,4 +25,19 @@ unitTests = testGroup "Unit tests"
 
   , testCase "fun2' x=11" $
       (fun2' 11) @?= 212
+
+  , testCase "foldTree" $
+      (foldTree "ABCDEFGHIJ") @?=
+        Node 3
+          (Node 2
+            (Node 0 Leaf 'F' Leaf)
+            'I'
+            (Node 1 (Node 0 Leaf 'B' Leaf) 'C' Leaf)
+          )
+          'J'
+          (Node 2
+            (Node 1 (Node 0 Leaf 'A' Leaf) 'G' Leaf)
+            'H'
+            (Node 1 (Node 0 Leaf 'D' Leaf) 'E' Leaf)
+          )
   ]
