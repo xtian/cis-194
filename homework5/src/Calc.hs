@@ -2,8 +2,7 @@
 
 module Calc where
 
-import Control.Applicative ((<$>))
-import Control.Monad (liftM2)
+import Control.Applicative (liftA2, (<$>))
 import qualified Data.Map as M
 
 import ExprT
@@ -77,5 +76,5 @@ instance HasVars (M.Map String Integer -> Maybe Integer) where
 
 instance Expr (M.Map String Integer -> Maybe Integer) where
   lit x _ = Just x
-  add x y vars = liftM2 (+) (x vars) (y vars)
-  mul x y vars = liftM2 (*) (x vars) (y vars)
+  add x y vars = liftA2 (+) (x vars) (y vars)
+  mul x y vars = liftA2 (*) (x vars) (y vars)
