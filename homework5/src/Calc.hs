@@ -1,4 +1,9 @@
+{-# LANGUAGE FlexibleInstances #-}
+
 module Calc where
+
+import Control.Monad (liftM2)
+import qualified Data.Map as M
 
 import ExprT
 import Parser
@@ -50,3 +55,29 @@ instance Expr Mod7 where
   lit = Mod7 . max 0 . min 6
   add (Mod7 x) (Mod7 y) = Mod7 $ (x + y) `mod` 7
   mul (Mod7 x) (Mod7 y) = Mod7 $ (x * y) `mod` 7
+
+
+data VarExprT = Lit' Integer
+              | Add' VarExprT VarExprT
+              | Mul' VarExprT VarExprT
+              | Var String
+  deriving (Show, Eq)
+
+class HasVars a where
+  var :: String -> a
+
+instance HasVars VarExprT where
+  var = Var
+
+instance Expr VarExprT where
+  lit = Lit'
+  add = Add'
+  mul = Mul'
+
+instance HasVars (M.Map String Integer -> Maybe Integer) where
+  var key vars = M.lookup key vars
+
+instance Expr (M.Map String Integer -> Maybe Integer) where
+  lit x _ = Just x
+  add x y vars = liftM2 (+) (x vars) (y vars)
+  mul x y vars = liftM2 (*) (x vars) (y vars)

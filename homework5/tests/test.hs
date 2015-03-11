@@ -1,6 +1,8 @@
 import Test.Tasty
 import Test.Tasty.HUnit
 
+import qualified Data.Map as M
+
 import Calc
 import ExprT
 import Parser
@@ -10,6 +12,11 @@ main = defaultMain unitTests
 
 testExp :: Expr a => Maybe a
 testExp = parseExp lit add mul "(3 * -4) + 5"
+
+withVars :: [(String, Integer)]
+         -> (M.Map String Integer -> Maybe Integer)
+         -> Maybe Integer
+withVars vars expression = expression $ M.fromList vars
 
 unitTests :: TestTree
 unitTests = testGroup "Unit tests"
@@ -40,4 +47,17 @@ unitTests = testGroup "Unit tests"
 
   , testCase "Expr Mod7" $
       (testExp :: Maybe Mod7) @?= Just (Mod7 5)
+
+  , testCase "Expr VarExprT"  $
+      (add (lit 3) (var "x") :: VarExprT) @?= Add' (Lit' 3) (Var "x")
+
+  , testCase "var Map" $
+      (withVars [("x", 6)] $ add (lit 3) (var "x")) @?= Just 9
+
+  , testCase "var Map (blank variable)" $
+      (withVars [("x", 6)] $ add (lit 3) (var "y")) @?= Nothing
+
+  , testCase "var Map (two variables)" $
+      (withVars [("x", 6), ("y", 3)] $ mul (var "x") (add (var "y") (var "x")))
+        @?= Just 54
   ]
