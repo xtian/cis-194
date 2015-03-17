@@ -19,4 +19,7 @@ unitTests = testGroup "Unit tests"
 
   , testCase "fibs1 n=4" $
       (take 4 fibs1) @?= [0, 1, 1, 2]
+
+  , testCase "fibs2 n=8" $
+      (take 8 fibs2) @?= [0, 1, 1, 2, 3, 5, 8, 13]
   ]
