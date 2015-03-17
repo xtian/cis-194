@@ -6,6 +6,10 @@ import Fibonacci
 main :: IO ()
 main = defaultMain unitTests
 
+streamTake :: Int -> Stream a -> [a]
+streamTake n = take n . streamToList
+
+
 unitTests :: TestTree
 unitTests = testGroup "Unit tests"
   [ testCase "fib x=0" $
@@ -22,4 +26,13 @@ unitTests = testGroup "Unit tests"
 
   , testCase "fibs2 n=8" $
       (take 8 fibs2) @?= [0, 1, 1, 2, 3, 5, 8, 13]
+
+  , testCase "streamRepeat" $
+      (streamTake 4 $ streamRepeat 0) @?= ([0, 0, 0, 0] :: [Integer])
+
+  , testCase "streamMap" $
+      (streamTake 2 $ streamMap (+1) $ streamRepeat 0) @?= ([1, 1] :: [Integer])
+
+  , testCase "streamFromSeed" $
+      (streamTake 3 $ streamFromSeed (+1) 0) @?= ([0, 1, 2] :: [Integer])
   ]

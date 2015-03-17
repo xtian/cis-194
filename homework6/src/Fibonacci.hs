@@ -19,3 +19,12 @@ instance Show a => Show (Stream a) where
 
 streamToList :: Stream a -> [a]
 streamToList (Element x s) = x : streamToList s
+
+streamRepeat :: a -> Stream a
+streamRepeat x = Element x (streamRepeat x)
+
+streamMap :: (a -> b) -> Stream a -> Stream b
+streamMap fn (Element x s) = Element (fn x) (streamMap fn s)
+
+streamFromSeed :: (a -> a) -> a -> Stream a
+streamFromSeed fn x = Element x (streamFromSeed fn (fn x))
