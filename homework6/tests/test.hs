@@ -35,4 +35,13 @@ unitTests = testGroup "Unit tests"
 
   , testCase "streamFromSeed" $
       (streamTake 3 $ streamFromSeed (+1) 0) @?= ([0, 1, 2] :: [Integer])
+
+  , testCase "nats" $
+      (streamTake 3 $ nats) @?= [0, 1, 2]
+
+  , testCase "interleaveStreams" $
+      (streamTake 4 $ interleaveStreams (streamRepeat 0) (streamRepeat 1)) @?= ([0, 1, 0, 1] :: [Integer])
+
+  , testCase "ruler" $
+      (streamTake 16 $ ruler) @?= [0, 1, 0, 2, 0, 1, 0, 3, 0, 1, 0, 2, 0, 1, 0, 4]
   ]

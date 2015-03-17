@@ -28,3 +28,13 @@ streamMap fn (Element x s) = Element (fn x) (streamMap fn s)
 
 streamFromSeed :: (a -> a) -> a -> Stream a
 streamFromSeed fn x = Element x (streamFromSeed fn (fn x))
+
+nats :: Stream Integer
+nats = streamFromSeed (+1) 0
+
+interleaveStreams :: Stream a -> Stream a -> Stream a
+interleaveStreams (Element x s1) s2 = Element x (interleaveStreams s2 s1)
+
+ruler :: Stream Integer
+ruler = fn 0
+  where fn n = interleaveStreams (streamRepeat n) (fn $ n + 1)
